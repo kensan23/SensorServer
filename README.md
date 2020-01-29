@@ -1,2 +1,2 @@
 # SensorServer
- Simple python api for the dht22
+ Simple python web api for the dht22
