@@ -21,19 +21,19 @@ def humidity():
                 return json.dumps('{2:.2f}'.format(sensor.data.humidity));
         else:
                 return "Sensor error", 503
-@application.route("api/v1/live/temperature", methods=['GET']) 
+@application.route("/api/v1/live/temperature", methods=['GET']) 
 def temperature():
         if sensor.get_sensor_data():
                 return json.dumps('{0:.2f} C'.format(sensor.data.temperature));
         else:
                 return "Sensor error", 503
-@application.route("api/v1/live/pressure", methods=['GET']) 
+@application.route("/api/v1/live/pressure", methods=['GET']) 
 def temperature():
         if sensor.get_sensor_data():
                 return json.dumps('{1:.2f} hPa'.format(sensor.data.pressure));
         else:
                 return "Sensor error", 503
-@application.route("api/v1/live/", methods=['GET']) 
+@application.route("/api/v1/live/", methods=['GET']) 
 def getAll():
         humidity = 300;
         if humidity is not None and temperature is not None:
