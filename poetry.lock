@@ -117,8 +117,8 @@ dev = ["pytest", "pytest-timeout", "coverage", "tox", "sphinx", "pallets-sphinx-
 watchdog = ["watchdog"]
 
 [metadata]
-content-hash = "c3c10ba0d7112755a67d416f3e124ff2aaa10097ed849fa9e6dfa582fe4fc00a"
-python-versions = "^3.7"
+content-hash = "157f223b32a5a4987bb179ca95c7b452bddc60e5e494abde6567b9d7d6eb64de"
+python-versions = "^3.5"
 
 [metadata.files]
 aniso8601 = [

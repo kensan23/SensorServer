@@ -18,7 +18,7 @@ sensor.set_filter(bme680.FILTER_SIZE_3)
 @application.route("/api/v1/live/humidity", methods=['GET']) 
 def humidity():
         if sensor.get_sensor_data():
-                return json.dumps('{2:.2f}'.format(sensor.data.humidity));
+                return json.dumps('{0:.2f}'.format(sensor.data.humidity));
         else:
                 return "Sensor error", 503
 @application.route("/api/v1/live/temperature", methods=['GET']) 
@@ -28,15 +28,18 @@ def temperature():
         else:
                 return "Sensor error", 503
 @application.route("/api/v1/live/pressure", methods=['GET']) 
-def temperature():
+def pressure():
         if sensor.get_sensor_data():
-                return json.dumps('{1:.2f} hPa'.format(sensor.data.pressure));
+                return json.dumps('{0:.2f} hPa'.format(sensor.data.pressure));
         else:
-                return "Sensor error", 503
+                 return "Sensor error", 503
 @application.route("/api/v1/live/", methods=['GET']) 
 def getAll():
-        humidity = 300;
-        if humidity is not None and temperature is not None:
+        if sensor.get_sensor_data():
+                response = '{0:.2f} C,{1:.2f} hPa,{2:.3f} %RH'.format(
+                        sensor.data.temperature,
+                        sensor.data.pressure,
+                        sensor.data.humidity)
                 return Response(json.dumps(response), status=200, mimetype='application/json')
         else:
                 return "Failed to retrieve data from dht22", 503
