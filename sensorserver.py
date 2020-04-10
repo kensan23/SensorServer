@@ -15,7 +15,7 @@ sensor.set_pressure_oversample(bme680.OS_4X)
 sensor.set_temperature_oversample(bme680.OS_8X)
 sensor.set_filter(bme680.FILTER_SIZE_3)
 
-@application.route("api/v1/live/humidity", methods=['GET']) 
+@application.route("/api/v1/live/humidity", methods=['GET']) 
 def humidity():
         if sensor.get_sensor_data():
                 return json.dumps('{2:.2f}'.format(sensor.data.humidity));
