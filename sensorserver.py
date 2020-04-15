@@ -2,6 +2,7 @@
 from flask import Flask, Response
 from flask_restful import Api
 import bme680
+import datetime
 import json
 
 application = Flask(__name__)
@@ -14,32 +15,51 @@ sensor.set_humidity_oversample(bme680.OS_2X)
 sensor.set_pressure_oversample(bme680.OS_4X)
 sensor.set_temperature_oversample(bme680.OS_8X)
 sensor.set_filter(bme680.FILTER_SIZE_3)
+sensorid = "Study"
 
 @application.route("/api/v1/live/humidity", methods=['GET']) 
 def humidity():
         if sensor.get_sensor_data():
-                return json.dumps('{0:.2f}'.format(sensor.data.humidity));
+                response = {
+                        "roomId" : sensorid,
+                        "humidity" : '{0:.2f}'.format(sensor.data.humidity),
+                        "datetime_utc" : datetime.datetime.utcnow().isoformat()
+                }
+                return Response(json.dumps(response), status=200, mimetype='application/json')
         else:
                 return "Sensor error", 503
 @application.route("/api/v1/live/temperature", methods=['GET']) 
 def temperature():
         if sensor.get_sensor_data():
-                return json.dumps('{0:.2f} C'.format(sensor.data.temperature));
+                response = {
+                        "roomId" : sensorid,
+                        "temperature" : '{0:.2f}C'.format(sensor.data.temperature),
+                        "datetime_utc" : datetime.datetime.utcnow().isoformat()
+                }
+                return Response(json.dumps(response), status=200, mimetype='application/json')
         else:
                 return "Sensor error", 503
 @application.route("/api/v1/live/pressure", methods=['GET']) 
 def pressure():
         if sensor.get_sensor_data():
-                return json.dumps('{0:.2f} hPa'.format(sensor.data.pressure));
+                response = {
+                        "roomId" : sensorid,
+                        "pressure" : '{0:.2f} hPa'.format(sensor.data.pressure),
+                        "datetime_utc" : datetime.datetime.utcnow().isoformat()
+                }
+                return Response(json.dumps(response), status=200, mimetype='application/json')
         else:
                  return "Sensor error", 503
-@application.route("/api/v1/live/", methods=['GET']) 
+@application.route("/api/v1/live/all", methods=['GET']) 
 def getAll():
         if sensor.get_sensor_data():
-                response = '{0:.2f} C,{1:.2f} hPa,{2:.3f} %RH'.format(
-                        sensor.data.temperature,
-                        sensor.data.pressure,
-                        sensor.data.humidity)
+                response = {
+                        "roomId" : sensorid,
+                        "temperature" : '{0:.2f}C'.format(sensor.data.temperature),
+                        "humidity" : '{0:.2f}'.format(sensor.data.humidity),
+                        "pressure" : '{0:.2f} hPa'.format(sensor.data.pressure),
+                        "datetime_utc" : datetime.datetime.utcnow().isoformat()
+                }      
                 return Response(json.dumps(response), status=200, mimetype='application/json')
         else:
                 return "Failed to retrieve data from dht22", 503
